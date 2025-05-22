@@ -1,0 +1,33 @@
+ body {
+    margin: 0px;
+    font-family: sans-serif;
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    background: red;
+}
+
+ul::before, ul::after {
+    clear: both;
+    display: block;
+    content: '';
+}
+
+
+li {
+    display: block;
+    padding: 10px;
+    float: left;
+}
+
+li:hover {
+    background: purple;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}

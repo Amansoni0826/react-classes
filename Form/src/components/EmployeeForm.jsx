@@ -1,34 +1,40 @@
 import React, { useState } from "react";
 const EmployeeForm = () => {
 
-    const [name, setName] = useState('');
-    const [city, setCity] = useState('');
-    const [mobile, setMobile] = useState('');
+    const [employeeData, setEmployeeData] = useState({ name: "", city: "", mobile: "" });
+    const [tableData, setTableData] = useState([]);
 
-    const [employeeData, setEmployeeData] = useState([{ 'name': 'test', 'city': 'test', 'mobile': 'test' }]);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEmployeeData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // prevent page reload
 
-        setEmployeeData(...employeeData, { 'name': name, 'city': city, 'mobile': mobile });
+        // Add current form data to the table
+        setTableData((prevData) => [...prevData, employeeData]);
 
-        console.log(employeeData);
-
-    }
+        // Clear form fields
+        setEmployeeData({ name: "", city: "", mobile: "" });
+    };
 
     return <>
         <form className="employee-form" onSubmit={handleSubmit}>
             <label>Name</label>
             <div>
-                <input type="text" name="name" onChange={(e) => setName(e.target.value)} />
+                <input type="text" name="name" value={employeeData.name} onChange={handleChange} />
             </div>
             <label>City</label>
             <div>
-                <input type="text" name="city" onChange={(e) => setCity(e.target.value)} />
+                <input type="text" name="city" value={employeeData.city} onChange={handleChange} />
             </div>
             <label>Mobile No.</label>
             <div>
-                <input type="text" name="Number" onChange={(e) => setMobile(e.target.value)} />
+                <input type="text" name="mobile" value={employeeData.mobile} onChange={handleChange} />
             </div>
             <div>
                 <button type="submit">Submit</button>
@@ -44,18 +50,13 @@ const EmployeeForm = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {
-
-                        employeeData.map(function (item, index) {
-
-                            return <tr key={index * Math.random() * 10000}>
-                                <td>{item.name}</td>
-                                <td>{item.city}</td>
-                                <td>{item.mobile}</td>
-                            </tr>
-                        })
-                    }
-
+                    {tableData.map((row, index) => (
+                        <tr key={index}>
+                            <td>{row.name}</td>
+                            <td>{row.city}</td>
+                            <td>{row.mobile}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
